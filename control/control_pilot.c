@@ -57,8 +57,8 @@ void run_control(control_pilot* ctpl, float raw_adc_volatage, float duty_cycle)
             ctpl->state = debouncestate;
             ctpl->debounce_counter = 0;
         }
-        else ctpl->debounce_counter = 0;
     }
+    else ctpl->debounce_counter = 0;
     
     switch (ctpl->state)
     {
