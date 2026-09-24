@@ -21,5 +21,15 @@ A bare-metal, zero-dependency ANSI C (C99) production-grade firmware module impl
 └── modbus/
     ├── modbus_rtu.h         # Register map & Modbus stack API
     └── modbus_rtu.c         # Bitwise CRC-16 & frame processing engine
-Register MapRegister AddressParameterScale FactorAccess0x0000Pilot State Enum1:1Read-Only0x0001Measured Voltage (V)x10Read-Only0x0002Max Grid Current (A)x10Read-Only0x0003Fault Active FlagBoolean (0/1)Read-OnlyCompilation & RunCompile using any standard C99 compiler (GCC/Clang):Bashgcc -Wall -Wextra -I. main.c control/control_pilot.c modbus/modbus_rtu.c -o evse_sim
+
+## Modbus Holding Register Map (Function Code 0x03)
+
+| Address | Parameter | Type | Scale | Range / Description |
+| :--- | :--- | :--- | :--- | :--- |
+| `0x0000` | `REG_PILOT_STATE` | `uint16_t` | 1:1 | `0` = State A, `1` = State B, `2` = State C, `3` = State E, `4` = State F |
+| `0x0001` | `REG_VOLTAGE_MEASURED` | `uint16_t` | x10 | Measured Pilot Voltage ($120 = 12.0\,\text{V}$, $60 = 6.0\,\text{V}$) |
+| `0x0002` | `REG_MAX_ALLOWED_CURRENT` | `uint16_t` | x10 | Dynamic Grid Current Limit ($300 = 30.0\,\text{A}$) |
+| `0x0003` | `REG_FAULT_FLAG` | `uint16_t` | 1:1 | System Safety Status ($0$ = Normal, $1$ = Active Fault) |
+
+ RunCompile using any standard C99 compiler (GCC/Clang):Bashgcc -Wall -Wextra -I. main.c control/control_pilot.c modbus/modbus_rtu.c -o evse_sim
 ./evse_sim
